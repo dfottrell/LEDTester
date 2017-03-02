@@ -5,11 +5,21 @@ Created on 28 Feb 2017
 '''
 import sys
 from nose.tools import *
+from src.main import validCom
 
-# T1 - Test that the program can open, close and read a line from an external file source
-
-# T2 - Test the first 3 lines read in from the user input file are properly formatted commands 
-# T3 - Test if the command is a switch, skip to T5 if false.  May need a regular expression here!
-# T4 - If T3 is true, test if you have correctly reformatted the array with the toggled LED? e.g. was on, switch it off 
-# T5 - Repeating test 2, count the number of LED's left on and verify the number is correct
-# T6 - Repeat test with deliberately corrupted instructions, e.g. white space, negative array coordinates, etc.
+N = 10
+a2d = [ [0]*N for_in range(N) ]    
+    
+def test_validCom():
+    eq_(validCom('turn on 0,0 through 9,9'), 'turnOn(0, 0, 9, 9)', 'validCom "turnOn" call failed')
+    eq_(validCom('turn off 0,0 through 9,9'), 'turnOff(0, 0, 9, 9)', 'validCom "turnOff" call failed')
+    eq_(validCom('switch 0,0 through 9,9'), 'turnOn(0, 0, 9, 9)', 'validCom "switch" call failed')
+    
+def test_turnOn():
+    eq_(turnOn(0, 0, 1, 1), (sum(a2d) == 2), 'turnOn count failed')
+    
+def test_turnOff():
+    eq_(turnOff(0, 0, 1, 1), (sum(a2d) == 0), 'turnOff count failed')
+    
+def test_switch():
+    eq_(switch(0, 0, 1, 1), (sum(a2d) == 2), 'switch count failed')
