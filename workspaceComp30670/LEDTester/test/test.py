@@ -6,9 +6,12 @@ Created on 28 Feb 2017
 import sys
 from nose.tools import *
 from src.main import validCom
+from src.main import turnOn
+from src.main import turnOff
+from src.main import switch
 
 N = 10
-a2d = [ [0]*N for_in range(N) ]    
+a2d = [ [0] * N for _ in range(N) ]    
     
 def test_validCom():
     eq_(validCom('turn on 0,0 through 9,9'), 'turnOn(0, 0, 9, 9)', 'validCom "turnOn" call failed')

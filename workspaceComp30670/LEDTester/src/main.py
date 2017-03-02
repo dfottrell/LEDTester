@@ -3,11 +3,6 @@ Created on 28 Feb 2017
 
 @author: David Fottrell
 '''
-from skimage.external.tifffile.tifffile import FileHandle
-from IPython.testing.iptestcontroller import argparser
-from pylint.extensions.check_elif import ElseifUsedChecker
-if __name__ == '__main__':
-    main()
 
 def main():
 
@@ -36,23 +31,23 @@ def main():
                     a2d[i][j] = 1                
         return
         
-    def validCom(str):
+    def validCom(s):
         # See also Group Extraction https://developers.google.com/edu/python/regular-expressions
         # Any coordinates outside the range are reset to the extreme values of the array
         import re
-        for i in range (0, len(str)):
-            match = re.search('(\d*)(\,)(\d*)(\sthrough\s)(\d*)(\,)(\d*)', str)
+        for i in range (0, len(s)):
+            match = re.search('(\d*)(\,)(\d*)(\sthrough\s)(\d*)(\,)(\d*)', s)
             x1 = match.group(1)
             if (x1 < 0):
-                 x1 = 0
+                    x1 = 0
             if (x1 > 999):
-                 x1 = 999
+                    x1 = 999
                 
             x2 = match.group(3)
             if (x2 < 0):
                 x2 = 0
             if (x2 > 999):
-                 x2 = 999
+                    x2 = 999
             
             y1 = match.group(5)
             if (y1 < 0):
@@ -66,17 +61,17 @@ def main():
             if (y1 > 999):
                 y1 = 999
     
-            if (str[:6] == "turn on"):            
+            if (s[:6] == "turn on"):            
                 # Need to feed these coordinates to the on() function
                 turnOn(x1, x2, y1, y2)
                 
-            if (str[:7] == "turn off"):
+            if (s[:7] == "turn off"):
                 # LEDState = 0
                 # Need to feed these coordinates to the on() function
                 turnOff(x1, x2, y1, y2)
                 
                 # Need to feed these coordinates to the off() function
-            if (str[0:6] == "switch"):
+            if (s[0:6] == "switch"):
                 switch(x1, x2, y1, y2)
                 # Need to feed these coordinates to the off() function
             
@@ -86,11 +81,10 @@ def main():
     
     import argparse
     import urllib.request
-    import pprint
     
     # Initialise an array for the LED
     N = 1000
-    a2d = [ [0]*N for_in range(N) ]    
+    a2d = [ [0] * N for _ in range(N) ]    
     # pprint(a2d)
     
     # Obtain user input
@@ -101,26 +95,22 @@ def main():
     
     # Validate URL path
     urltest = urllib.request.urlopen(filename)
-    if (urltest != 200)
+    if (urltest != 200):
         print("Error - URL is invalid")
     
     # Read the file contents in
-    buffer = open(filename).readlines()
-    # returns a list, each element of which a  line of the file associated with the file handle
-    # Ref John Dunnion's notes from comp10280, lecture 18, slide 15
-    # Don't forget to close the file at the end of this script!!
-    # buffer.close()
-    
+    buffer = open(filename).readline()
     # Line 0 in the test files refers to the size of the array, this next line is a variable to detect that
-    asize = int(buffer[0])
+    # asize = int(buffer[0]) don't seem to need this after all!
+    for line in buffer:
+        for i in range(len(buffer)):
+            validCom(buffer[i])
     
-    # Parse the line in and detect the command to be executed    
-    # start at buffer[1] until the end of the file
-    for i in range (1, asize):
-        if ((validCom(buffer[i])) = true)
-            # At this point, pass the returned command to the command function and have it switch on the LED's
-        
-     # Count and print the sum of LED's = 1 (on). 0 is off and hence will not affect the sum
-     Print(filename, "; The count of LED's on is: ", (sum(a2d)))
-     
+    # Close file for neatness sake
+    buffer.close()
+    print(filename, "; Count of LEDs on are ", sum(a2d))
+    
     return
+
+if __name__ == '__main__':
+    main()
