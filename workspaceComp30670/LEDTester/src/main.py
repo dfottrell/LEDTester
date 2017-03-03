@@ -3,25 +3,28 @@ Created on 28 Feb 2017
 
 @author: David Fottrell
 '''
+import argparse
+import urllib.request
 
-def main():
-
-
-    def turnOn(x1, y1, x2, y2):
+class LEDTest:
+    def __init__(self):
+        pass
+    
+    def turnOn(self, a2d, x1, y1, x2, y2):
         # Turn on LED
         for i in range (x1, x2):
             for j in range (y1, y2):
                 a2d[i][j] = 1
         return
         
-    def turnOff(x1, y1, x2, y2):
+    def turnOff(self,a2d, x1, y1, x2, y2):
         #  Turn LED OFF
         for i in range (x1, x2):
             for j in range (y1, y2):
                 a2d[i][j] = 0
         return
         
-    def switch(x1, y1, x2, y2):
+    def switch(self,a2d, x1, y1, x2, y2):
         # Toggle LED
         for i in range (x1, x2):
             for j in range (y1, y2):
@@ -30,12 +33,12 @@ def main():
                 if ((a2d[i][j]) == 0):
                     a2d[i][j] = 1                
         return
-        
-    def validCom(s):
+    
+    def validCom(self,a2d, s):
         # See also Group Extraction https://developers.google.com/edu/python/regular-expressions
         # Any coordinates outside the range are reset to the extreme values of the array
         import re
-        for i in range (0, len(s)):
+        for i in range(0, len(s)):
             match = re.search('(\d*)(\,)(\d*)(\sthrough\s)(\d*)(\,)(\d*)', s)
             x1 = match.group(1)
             if (x1 < 0):
@@ -63,24 +66,21 @@ def main():
     
             if (s[:6] == "turn on"):            
                 # Need to feed these coordinates to the on() function
-                turnOn(x1, x2, y1, y2)
+                LEDTest.turnOn(a2d, x1, x2, y1, y2)
                 
             if (s[:7] == "turn off"):
                 # LEDState = 0
                 # Need to feed these coordinates to the on() function
-                turnOff(x1, x2, y1, y2)
+                LEDTest.turnOff(a2d, x1, x2, y1, y2)
                 
                 # Need to feed these coordinates to the off() function
             if (s[0:6] == "switch"):
-                switch(x1, x2, y1, y2)
+                LEDTest.switch(a2d, x1, x2, y1, y2)
                 # Need to feed these coordinates to the off() function
             
         return
-    
 
-    
-    import argparse
-    import urllib.request
+def main():    
     
     # Initialise an array for the LED
     N = 1000
@@ -104,7 +104,7 @@ def main():
     # asize = int(buffer[0]) don't seem to need this after all!
     for line in buffer:
         for i in range(len(buffer)):
-            validCom(buffer[i])
+            LEDTest.validCom(a2d, buffer[i])
     
     # Close file for neatness sake
     buffer.close()

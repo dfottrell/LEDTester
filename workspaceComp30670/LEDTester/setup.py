@@ -16,7 +16,9 @@ setup(name="LEDTester",
       licence="GPL3",
       packages=["src"],
       entry_points={
-          'console_scripts':['workspaceComp30670_LEDTester=src.main:main']
-          }
-    
+          'console_scripts':['LEDTester=src.main:main']
+          },
+    install_requires=[
+        'numpy',
+        ],
     )
